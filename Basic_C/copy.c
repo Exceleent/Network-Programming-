@@ -7,10 +7,10 @@
 
 int main(int argc, char *argv[])
 {
-    int kopiowany;
-    int nowy;
+    int coppied;
+    int new;
     char buf[1];
-    int r_przeczytanych = 0;
+    int r_read = 0;
 
     if (argc != 3)
     {
@@ -19,38 +19,36 @@ int main(int argc, char *argv[])
     }
     else
     {
-        kopiowany = open(argv[1], O_RDONLY | O_CREAT);
-        nowy = open(argv[2], O_WRONLY | O_CREAT);
-        if (kopiowany == -1 || nowy == -1)
+        coppied = open(argv[1], O_RDONLY | O_CREAT);
+        new = open(argv[2], O_WRONLY | O_CREAT);
+        if (coppied == -1 || new == -1)
         {
             perror("Program");
         }
         else
         {
-            while (r_przeczytanych = read(kopiowany, buf, 1), r_przeczytanych > 0)
+            while (r_read = read(coppied, buf, 1), r_read > 0)
             {
-                char *zapisane_wskaznik = buf;
-                //printf("Z pliku odczytano %c \n", *buf);
-                int r_zapisanych = 0;
-                while (r_zapisanych = write(nowy, zapisane_wskaznik, 1))
+                char *write_pointer = buf;
+                int r_write = 0;
+                while (r_write = write(new, write_pointer, 1))
                 {
-                    if(r_zapisanych == -1) {
+                    if(r_write == -1) {
                         perror("Program");
                     }
-                    if(r_zapisanych == 0) {
+                    if(r_write == 0) {
                         break;
                     }
-                    //printf("Do pliku zapisano %c \n", *zapisane_wskaznik);
-                    r_przeczytanych -=r_zapisanych;
-                    if(r_przeczytanych ==0 ) break;
+                    r_read -=r_write;
+                    if(r_read ==0 ) break;
                 }
-                if (r_przeczytanych == -1)
+                if (r_read == -1)
                 {
                     perror("Program");
                 }
             }
         }
-        if (close(kopiowany) < 0 && close(nowy) < 0)
+        if (close(coppied) < 0 && close(new) < 0)
         {
             perror("Program");
         }
