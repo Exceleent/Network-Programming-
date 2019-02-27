@@ -1,20 +1,20 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool drukowalne(const char *buf);
-bool drukowalne_2(const char *buf);
+bool print(const char *buf);
+bool print_2(const char *buf);
 
 
 int main()
 {
     char MY_BUFOR[5] = {'A', 'B', 'C', 'D', 'E'};
     bool state;
-    state = drukowalne(MY_BUFOR);
-    state = drukowalne_2(MY_BUFOR);
+    state = print(MY_BUFOR);
+    state = print_2(MY_BUFOR);
 }
 
 
-bool drukowalne(const char *buf)
+bool print(const char *buf)
 {
     int i = 0;
     while (*(buf + i) != 0)
@@ -32,7 +32,7 @@ bool drukowalne(const char *buf)
     return true;
 }
 
-bool drukowalne_2(const char *buf)
+bool print_2(const char *buf)
 {
     const char *p;
     p = buf;
