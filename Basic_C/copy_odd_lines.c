@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
             while (r_read = r_read(coppied, buf, 1), r_read > 0)
             {
                 char *write_pointer = buf;
-                //printf("Z pliku odczytano %c \n", *buf);
                 int r_write = 0;
                 while (r_write = write(new, write_pointer, 1))
                 {
@@ -57,7 +56,6 @@ int main(int argc, char *argv[])
                     {
                         break;
                     }
-                    //printf("Do pliku zapisano %c \n", *write_pointer);
                     r_read -= r_write;
                     if (r_read == 0)
                         break;
