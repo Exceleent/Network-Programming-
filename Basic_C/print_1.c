@@ -1,19 +1,19 @@
 #include <stdbool.h>
 #include <stdio.h>
 #define BUFORSIZE 5
-bool drukowalne(const void *buf, int len);
-bool drukowalne2(const void *buf, int len);
+bool print(const void *buf, int len);
+bool print2(const void *buf, int len);
 
 
 int main()
 {
     char MY_BUFOR[BUFORSIZE] = {'A', 'B', 'C', 'D', 'E'};
     bool state;
-    state = drukowalne(MY_BUFOR,BUFORSIZE);
-    state = drukowalne2(MY_BUFOR,BUFORSIZE);
+    state = print(MY_BUFOR,BUFORSIZE);
+    state = print2(MY_BUFOR,BUFORSIZE);
 }
 
-bool drukowalne(const void *buf, int len)
+bool print(const void *buf, int len)
 {
     const char *temporary = (const char *)buf;
     for (int i = 0; i < len; i++)
@@ -30,7 +30,7 @@ bool drukowalne(const void *buf, int len)
     return true;
 }
 
-bool drukowalne2(const void *buf, int len) {
+bool print2(const void *buf, int len) {
      const char *p;
     p = buf;
     while (len > 0)
