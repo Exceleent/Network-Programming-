@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define MAX_SIZE 13
+#define MAX_SIZE 1024
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     char buff[13];
     struct sockaddr_in client_address;
     int port;
+    int read_size;
     if (argc != 3)
     {
         printf("Wrong arguments format");
@@ -38,14 +39,14 @@ int main(int argc, char *argv[])
         printf("Connection problems");
         exit(2);
     }
-    if (!(read(client, buff, MAX_SIZE)))
+    if (read size = (read(client, buff, MAX_SIZE)) == -1)
     {
         printf("Reading problems");
         exit(3);
     }
-    for (int i = 0; i < MAX_SIZE; i++)
+    for (int i = 0; i < read_size ; i++)
     {
-        if ((int)(buff[i]) < 127)
+        if (((int)(buff[i]) < 127) && ((int)buff[i] > 32))
         {
             printf("%c", buff[i]);
         }
