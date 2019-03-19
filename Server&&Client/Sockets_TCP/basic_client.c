@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
         printf("Wrong arguments format");
         exit(0);
     }
-    if (!(client = socket(AF_INET, SOCK_STREAM, 0)))
+    if ((client = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         perror("Cannot creat socket");
         exit(1);
@@ -36,12 +36,12 @@ int main(int argc, char *argv[])
     client_address.sin_port = htons(port);
     if (connect(client, (struct sockaddr *)&client_address, sizeof(client_address)) == -1)
     {
-        printf("Connection problems");
+        perror("Connection problems");
         exit(2);
     }
     if (read size = (read(client, buff, MAX_SIZE)) == -1)
     {
-        printf("Reading problems");
+        perror("Reading problems");
         exit(3);
     }
     for (int i = 0; i < read_size ; i++)
