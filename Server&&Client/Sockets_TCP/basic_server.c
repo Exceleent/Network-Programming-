@@ -5,6 +5,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <arpa/inet.h>
+
 #define MAX_SIZE 1024
 int main(int argc, char *argv[])
 {
@@ -26,9 +28,9 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if ((serwer = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    if (!(serwer = socket(AF_INET, SOCK_STREAM, 0)))
     {
-        perror("Cannot create server");
+        printf("Cannot create server");
         exit(2);
     }
     server_address.sin_family = AF_INET;
@@ -36,24 +38,24 @@ int main(int argc, char *argv[])
     server_address.sin_port = htons(atoi(argv[1]));
     if ((bind(serwer, (struct sockaddr *)&server_address, sizeof(server_address))) == -1)
     {
-        perror("Cannot bind the server");
+        printf("Cannot bind the server");
         exit(3);
     }
     if (listen(serwer, 2) == -1)
     {
-        perror("Cannot Listen");
+        printf("Cannot Listen");
         exit(4);
     }
     while (true)
     {
         if ((client = accept(serwer, NULL, 0)) == -1)
         {
-            perror("Cannot accpet next client");
+            printf("Cannot accpet next client");
             exit(5);
         }
-        if ((write(client, message, MAX_SIZE)) == -1)
+        if (!(write(client, message, MAX_SIZE)))
         {
-            perror("Write Problems");
+            printf("Write Problems");
             exit(6);
         }
     }
