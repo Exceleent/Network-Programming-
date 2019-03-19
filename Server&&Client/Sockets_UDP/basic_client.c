@@ -1,11 +1,12 @@
-#include <stdbool.h>
+include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define MAX_SIZE 13
+#include <arpa/inet.h>
+#define MAX_SIZE 1024
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
         printf("Wrong arguments format");
         exit(0);
     }
-    if ((client = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+    if ((client = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
     {
         perror("Cannot creat socket");
         exit(1);
@@ -36,19 +37,19 @@ int main(int argc, char *argv[])
     client_address.sin_family = AF_INET;
     client_address.sin_addr.s_addr = inet_addr(argv[1]);
     client_address.sin_port = htons(port);
-    if (sendto(client, (const char *)buff, strlen(buff), 0, (const struct sockaddr *)&client_address, sizeof(client_address)) < 0)
+    if (sendto(client, (const char *)buff, strlen(buff), 0, (const struct sockaddr *)&client_address, sizeof(client_address)) == -1)
     {
         perror("Cannot send message");
         exit(3);
     }
-    if ((message_size = recvfrom(client, (char *)buff, MAX_SIZE, MSG_WAITALL, (struct sockaddr *)&client_address, &size)) < 1)
+    if ((message_size = recvfrom(client, (char *)buff, MAX_SIZE, MSG_WAITALL, (struct sockaddr *)&client_address, &size)) == -1)
     {
         perror("There is no messasge");
         exit(4);
     }
-    for (int i = 0; i < MAX_SIZE; i++)
+    for (int i = 0; i < message_size; i++)
     {
-        if ((int)(buff[i]) < 127)
+        if ((int)(buff[i]) < 127 && (int)(buff[i]) > 32)
         {
             printf("%c", buff[i]);
         }
