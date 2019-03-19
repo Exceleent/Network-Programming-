@@ -1,16 +1,17 @@
-#include <stdbool.h>
+##include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #define MAX_SIZE 1024
 
 int main(int argc, char *argv[])
 {
     int client;
-    char buff[13];
+    char buff[MAX_SIZE];
     struct sockaddr_in client_address;
     int port;
     int read_size;
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
         perror("Connection problems");
         exit(2);
     }
-    if (read size = (read(client, buff, MAX_SIZE)) == -1)
+    if ((read_size = (read(client, buff, MAX_SIZE))) == -1)
     {
         perror("Reading problems");
         exit(3);
