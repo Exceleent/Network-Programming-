@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define MAX_SIZE 13
+#define MAX_SIZE 1024
 int main(int argc, char *argv[])
 {
     int n_ports;
