@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if (!(serwer = socket(AF_INET, SOCK_STREAM, 0)))
+    if ((serwer = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        printf("Cannot create server");
+        perror("Cannot create server");
         exit(2);
     }
     server_address.sin_family = AF_INET;
@@ -36,24 +36,24 @@ int main(int argc, char *argv[])
     server_address.sin_port = htons(atoi(argv[1]));
     if ((bind(serwer, (struct sockaddr *)&server_address, sizeof(server_address))) == -1)
     {
-        printf("Cannot bind the server");
+        perror("Cannot bind the server");
         exit(3);
     }
     if (listen(serwer, 2) == -1)
     {
-        printf("Cannot Listen");
+        perror("Cannot Listen");
         exit(4);
     }
     while (true)
     {
         if ((client = accept(serwer, NULL, 0)) == -1)
         {
-            printf("Cannot accpet next client");
+            perror("Cannot accpet next client");
             exit(5);
         }
-        if (!(write(client, message, MAX_SIZE)))
+        if ((write(client, message, MAX_SIZE)) == -1)
         {
-            printf("Write Problems");
+            perror("Write Problems");
             exit(6);
         }
     }
