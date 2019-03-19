@@ -5,7 +5,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define MAX_SIZE 13
+#include <arpa/inet.h>
+#define MAX_SIZE 1024
 int main(int argc, char *argv[])
 {
     socklen_t size;
@@ -27,12 +28,11 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if (!(serwer = socket(AF_INET, SOCK_DGRAM, 0)))
+    if ((serwer = socket(AF_INET, SOCK_DGRAM, 0)) == -1)
     {
         perror("Cannot create server");
         exit(2);
     }
-    printf("Serwer sie wlaczyl\n");
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
     //server_address.sin_addr.s_addr = inet_addr(argv[1]);
@@ -44,19 +44,19 @@ int main(int argc, char *argv[])
     }
     while (true)
     {
-        if ((message_size = recvfrom(serwer, (char *)message, MAX_SIZE, MSG_WAITALL, (struct sockaddr *)&server_address, &size)) < 0)
+        if ((message_size = recvfrom(serwer, (char *)message, MAX_SIZE, MSG_WAITALL, (struct sockaddr *)&server_address, &size)) == -1)
         {
             perror("There is no messasge");
             exit(5);
         }
-        for (int i = 0; i < MAX_SIZE; i++)
+        for (int i = 0; i < message_size; i++)
         {
-            if ((int)(message[i]) < 127)
+            if ((int)(message[i]) < 127 && (int)(message[i]) > 32)
             {
                 printf("%c", message[i]);
             }
         }
-        if (sendto(serwer, (const char *)message, strlen(message), 0, (const struct sockaddr *)&server_address, size) < 0)
+        if (sendto(serwer, (const char *)message, strlen(message), 0, (const struct sockaddr *)&server_address, size) == -1)
         {
             perror("Cannot send message");
             exit(6);
