@@ -1,7 +1,8 @@
 ***************
 Basic_C
 ***************
-Quick recap of C programming. Input-output system calls in C | Create, Open, Close, Read, Write
+Quick recap of C programming. Input-output system calls in C | Create, Open, Close, Read, Write.
+-------
 Content
 --------
 * print_1.c - Function tests if buffer contains only printable ASCII characters, i.e. byte value between [32, 126].
