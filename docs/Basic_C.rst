@@ -6,7 +6,7 @@ Quick recap of C programming. Input-output system calls in C | Create, Open, Clo
 Content
 --------
 * print_1.c - Function tests if buffer contains only printable ASCII characters, i.e. byte value between [32, 126].
-Two variants: first function reads from buffer using operation of indexing table, second one function reads from buffer using pointer which moves on buffer byte by byte.
+ Two variants: first function reads from buffer using operation of indexing table, second one function reads from buffer using pointer    which moves on buffer byte by byte.
 Signature of function: bool print(const void * buf, int len);
 * print_2.c - same as above but
 Signatrue of function: bool print(const char * buf);
