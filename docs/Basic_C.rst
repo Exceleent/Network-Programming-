@@ -12,5 +12,5 @@ Signature of function: bool print(const void * buf, int len);
 Signatrue of function: bool print(const char * buf)
  * copy.c - copy files, using Input-output system calls.
  Input data(files names), are command line arguments.
-  * copy_mod.c - copy only odd lines, using Input-output system calls.
+ * copy_mod.c - copy only odd lines, using Input-output system calls.
   Input data(files names), are command line arguemnts.
