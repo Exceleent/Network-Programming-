@@ -3,6 +3,7 @@
 Server&&Client
 ***************
 Server sends greetings to the client, after recive greetings client prints greetings string.
+
 Content
 --------
 * Sockets_TCP - Server and Client creates TCP sockets.
