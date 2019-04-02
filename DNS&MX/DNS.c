@@ -4,7 +4,7 @@
 #include <sys/types.h> // *_t, u_int16_t
 #include <netinet/in.h>
 #include <arpa/nameser.h> //  NS_* i ns_*
-#include <resolv.h>       //  nagłówek, res_search
+#include <resolv.h>       //   res_search
 #include <netdb.h>        // h_errno i herror
 
 #include <stdio.h>      // printf 
