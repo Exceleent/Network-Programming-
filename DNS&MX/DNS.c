@@ -231,6 +231,7 @@ static void add(struct in_addr *results, struct in_addr address)
     fputs("find_mail_exchanges: too many results\n", stderr);
 }
 
+///---------------------------------------------------------------------------//
 
 void client_fun(struct sockaddr_in client_address)
 {
@@ -267,6 +268,8 @@ void client_fun(struct sockaddr_in client_address)
         exit(4);
     }
 }
+
+////--------------------------------------////
 
 int main(int argc, char *argv[])
 {
