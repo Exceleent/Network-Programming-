@@ -4,10 +4,10 @@
 #include <sys/types.h> // *_t, u_int16_t
 #include <netinet/in.h>
 #include <arpa/nameser.h> //  NS_* i ns_*
-#include <resolv.h>       //   res_search
+#include <resolv.h>       //  nagłówek, res_search
 #include <netdb.h>        // h_errno i herror
 
-#include <stdio.h>      // printf 
+#include <stdio.h>      // printf
 #include <stdlib.h>     // malloc
 #include <string.h>     // memset, memcpy
 #include <netinet/in.h> // struct in_addr
@@ -25,8 +25,8 @@ static int process_mx_record(ns_msg *handle, ns_rr *record,
 static int process_a_record(ns_msg *handle, ns_rr *record,
                             struct in_addr *results);
 static void add(struct in_addr *results, struct in_addr address);
+static char *return_tab(char *buf);
 struct in_addr *find_mail_exchanges(const char *domain_name);
-
 
 struct in_addr *find_mail_exchanges(const char *domain_name)
 {
@@ -142,7 +142,6 @@ static int query(const char *domain_name, int type, struct in_addr *results)
     return answers_count;
 }
 
-
 static int process_mx_record(ns_msg *handle, ns_rr *record,
                              struct in_addr *results)
 {
@@ -231,8 +230,6 @@ static void add(struct in_addr *results, struct in_addr address)
     fputs("find_mail_exchanges: too many results\n", stderr);
 }
 
-///---------------------------------------------------------------------------//
-
 void client_fun(struct sockaddr_in client_address)
 {
     int client;
@@ -269,36 +266,64 @@ void client_fun(struct sockaddr_in client_address)
     }
 }
 
-////--------------------------------------////
+char *return_tab(char *buf)
+{
+    int i = 0;
+    int i_d = 0;
+    while (*(buf + i) != 0)
+    {
+        if (('@' == *(buf + i)))
+        {
+            while (*(buf + i) != 0)
+            {
+                i++;
+                *(buf + i_d) = *(buf + i);
+                i_d++;
+
+            }
+            return buf;
+        }
+        i++;
+    }
+    return buf;
+}
+
+
 
 int main(int argc, char *argv[])
 {
+    char *domain;
     struct sockaddr_in client_address;
-    if (argc != 2)
-    {
-        std::cerr << "Usage: " << argv[0] << " domain_or_host_name\n";
-        return 1;
-    }
 
-    struct in_addr *adresses = find_mail_exchanges(argv[1]);
-    if (adresses == NULL)
+    for (int i = 1; i < argc; i++)
     {
-        return 1;
-    }
-
-    char buf[INET_ADDRSTRLEN];
-    for (int i = 0; adresses[i].s_addr != htonl(INADDR_ANY); ++i)
-    {
-        if (inet_ntop(AF_INET, adresses + i, buf, sizeof(buf)) == NULL)
+        domain = return_tab(argv[i]);
+        struct in_addr *adresses = find_mail_exchanges(domain);
+        if (adresses == NULL)
         {
-            std::perror("inet_ntop");
             return 1;
         }
-        memset(&client_address, 0, sizeof(struct sockaddr));
-        client_address.sin_family = AF_INET;
-        client_address.sin_addr.s_addr = inet_addr(buf);
-        client_address.sin_port = htons(PORT);
-        client_fun(client_address);
+        printf(" Greatings from domain %d \n ", i);
+        printf("------------------------------------\n");
+
+        char buf[INET_ADDRSTRLEN];
+        for (int i = 0; adresses[i].s_addr != htonl(INADDR_ANY); ++i)
+        {
+            if (inet_ntop(AF_INET, adresses + i, buf, sizeof(buf)) == NULL)
+            {
+                std::perror("inet_ntop");
+                return 1;
+            }
+            memset(&client_address, 0, sizeof(struct sockaddr));
+            client_address.sin_family = AF_INET;
+            client_address.sin_addr.s_addr = inet_addr(buf);
+            client_address.sin_port = htons(PORT);
+            client_fun(client_address);
+        }
+        printf("------------------------------------\n");
+
+        std::free(adresses);
     }
-    std::free(adresses);
 }
+
+
